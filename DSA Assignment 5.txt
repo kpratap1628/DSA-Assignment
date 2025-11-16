@@ -1,0 +1,304 @@
+//q1
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+Node* head = NULL;
+
+// Insert at beginning
+void insertAtBeginning(int val) {
+    Node* newNode = new Node{val, head};
+    head = newNode;
+}
+
+// Insert at end
+void insertAtEnd(int val) {
+    Node* newNode = new Node{val, NULL};
+    if (head == NULL) {
+        head = newNode;
+        return;
+    }
+    Node* temp = head;
+    while (temp->next != NULL) temp = temp->next;
+    temp->next = newNode;
+}
+
+// Insert before a given value
+void insertBefore(int val, int beforeVal) {
+    if (head == NULL) return;
+    if (head->data == beforeVal) {
+        insertAtBeginning(val);
+        return;
+    }
+    Node* temp = head;
+    while (temp->next != NULL && temp->next->data != beforeVal)
+        temp = temp->next;
+    if (temp->next == NULL) return; // not found
+    Node* newNode = new Node{val, temp->next};
+    temp->next = newNode;
+}
+
+// Insert after a given value
+void insertAfter(int val, int afterVal) {
+    Node* temp = head;
+    while (temp != NULL && temp->data != afterVal)
+        temp = temp->next;
+    if (temp == NULL) return; // not found
+    Node* newNode = new Node{val, temp->next};
+    temp->next = newNode;
+}
+
+// Delete from beginning
+void deleteBeginning() {
+    if (head == NULL) return;
+    Node* temp = head;
+    head = head->next;
+    delete temp;
+}
+
+// Delete from end
+void deleteEnd() {
+    if (head == NULL) return;
+    if (head->next == NULL) {
+        delete head;
+        head = NULL;
+        return;
+    }
+    Node* temp = head;
+    while (temp->next->next != NULL) temp = temp->next;
+    delete temp->next;
+    temp->next = NULL;
+}
+
+// Delete specific node
+void deleteValue(int val) {
+    if (head == NULL) return;
+    if (head->data == val) {
+        deleteBeginning();
+        return;
+    }
+    Node* temp = head;
+    while (temp->next != NULL && temp->next->data != val)
+        temp = temp->next;
+    if (temp->next == NULL) return; // not found
+    Node* delNode = temp->next;
+    temp->next = temp->next->next;
+    delete delNode;
+}
+
+// Search
+void searchNode(int val) {
+    Node* temp = head;
+    int pos = 1;
+    while (temp != NULL) {
+        if (temp->data == val) {
+            cout << "Found at position: " << pos << endl;
+            return;
+        }
+        temp = temp->next;
+        pos++;
+    }
+    cout << "Not found\n";
+}
+
+// Display
+void display() {
+    Node* temp = head;
+    while (temp != NULL) {
+        cout << temp->data << " ";
+        temp = temp->next;
+    }
+    cout << endl;
+}
+
+int main() {
+    int choice, val, key;
+
+    while (true) {
+        cout << "\n1.Insert at Beginning\n2.Insert at End\n3.Insert Before\n4.Insert After\n"
+             << "5.Delete Beginning\n6.Delete End\n7.Delete Value\n8.Search\n9.Display\n10.Exit\n";
+        cin >> choice;
+
+        switch (choice) {
+            case 1: cin >> val; insertAtBeginning(val); break;
+            case 2: cin >> val; insertAtEnd(val); break;
+            case 3: cin >> val >> key; insertBefore(val, key); break;
+            case 4: cin >> val >> key; insertAfter(val, key); break;
+            case 5: deleteBeginning(); break;
+            case 6: deleteEnd(); break;
+            case 7: cin >> val; deleteValue(val); break;
+            case 8: cin >> val; searchNode(val); break;
+            case 9: display(); break;
+            case 10: return 0;
+        }
+    }
+}
+
+
+//q2
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+void insertEnd(Node*& head, int val) {
+    Node* newNode = new Node{val, NULL};
+    if (head == NULL) { head = newNode; return; }
+    Node* temp = head;
+    while (temp->next != NULL) temp = temp->next;
+    temp->next = newNode;
+}
+
+int deleteOccurrences(Node*& head, int key) {
+    int count = 0;
+
+    // remove from beginning if matches
+    while (head != NULL && head->data == key) {
+        Node* temp = head;
+        head = head->next;
+        delete temp;
+        count++;
+    }
+
+    Node* temp = head;
+    while (temp != NULL && temp->next != NULL) {
+        if (temp->next->data == key) {
+            Node* delNode = temp->next;
+            temp->next = temp->next->next;
+            delete delNode;
+            count++;
+        } else {
+            temp = temp->next;
+        }
+    }
+
+    return count;
+}
+
+void display(Node* head) {
+    while (head != NULL) {
+        cout << head->data << " ";
+        head = head->next;
+    }
+    cout << endl;
+}
+
+int main() {
+    Node* head = NULL;
+    insertEnd(head,1);
+    insertEnd(head,2);
+    insertEnd(head,1);
+    insertEnd(head,2);
+    insertEnd(head,1);
+    insertEnd(head,3);
+    insertEnd(head,1);
+
+    int key = 1;
+
+    int count = deleteOccurrences(head, key);
+
+    cout << "Count: " << count << endl;
+    cout << "Updated Linked List: ";
+    display(head);
+
+    return 0;
+}
+
+
+//q3
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+void insertEnd(Node*& head, int val) {
+    Node* newNode = new Node{val, NULL};
+    if (head == NULL) { head = newNode; return; }
+    Node* temp = head;
+    while (temp->next) temp = temp->next;
+    temp->next = newNode;
+}
+
+int findMiddle(Node* head) {
+    Node* slow = head;
+    Node* fast = head;
+    while (fast != NULL && fast->next != NULL) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    return slow->data;
+}
+
+int main() {
+    Node* head = NULL;
+    insertEnd(head,1);
+    insertEnd(head,2);
+    insertEnd(head,3);
+    insertEnd(head,4);
+    insertEnd(head,5);
+
+    cout << findMiddle(head);
+    return 0;
+}
+
+//q4
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+void insertEnd(Node*& head, int val) {
+    Node* newNode = new Node{val, NULL};
+    if (head == NULL) { head = newNode; return; }
+    Node* temp = head;
+    while (temp->next) temp = temp->next;
+    temp->next = newNode;
+}
+
+Node* reverseList(Node* head) {
+    Node* prev = NULL;
+    Node* curr = head;
+    Node* next = NULL;
+
+    while (curr != NULL) {
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+    return prev;
+}
+
+void display(Node* head) {
+    while (head != NULL) {
+        cout << head->data << " ";
+        head = head->next;
+    }
+    cout << endl;
+}
+
+int main() {
+    Node* head = NULL;
+    insertEnd(head,1);
+    insertEnd(head,2);
+    insertEnd(head,3);
+    insertEnd(head,4);
+
+    head = reverseList(head);
+    display(head);
+
+    return 0;
+}
