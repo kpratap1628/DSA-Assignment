@@ -1,0 +1,600 @@
+//Q1
+#include <iostream>
+using namespace std;
+
+int main(){
+	int a[10],low=0,d;
+	int high=(sizeof(a)/sizeof(a[0]))-1;
+	cout << "Enter Your Ordered Array:";
+	for(int i = 0;i < 10;i++){
+		cin >> a[i];
+	}
+	cout << "Your Array:";
+	for(int i = 0;i < 10;i++){
+		cout << a[i] << " ";
+	}
+	cout << "\nEnter the element you want to find: ";
+	cin >> d;
+	while(low<=high){
+		int mid = low + (high-low)/2;
+		if (a[mid] == d){
+			cout << "The element " << d << " is on " << mid + 1 << " position";
+			break;
+		} else if(a[mid] < d){
+			low = mid+1;
+		} else if(a[mid]>d){
+			high = mid-1;
+		} else{
+			cout << "Element not present";
+		}
+	}
+}
+
+
+
+
+//Q2
+#include <iostream>
+using namespace std;
+
+
+int main(){
+	int a[7] = {64,34,25,12,22,11,90};
+	int n = (sizeof(a)/sizeof(a[0]))-1,temp;
+	for(int i = 0;i<n;i++){
+		for(int j = 0;j<n-i;j++){
+			if(a[j] > a[j+1]){
+				temp = a[j];
+				a[j] = a[j+1];
+				a[j+1] = temp;
+			}
+		}
+	}
+	cout << "Your Array:";
+	for(int i = 0;i < 7;i++){
+		cout << a[i] << " ";
+	}
+}
+
+
+
+
+//Q3
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    int n, m;
+    cout << "Enter the number of elements (n): ";
+    cin >> n;
+
+    vector<int> a(n-1); 
+
+    cout << "Enter the " << n-1 << " sorted elements (1 to n, one missing): ";
+    for (int i = 0; i < n-1; i++) {
+        cin >> a[i];
+    }
+
+   
+    int missing = n;  
+    for (int i = 0; i < n-1; i++) {
+        if (a[i] != i+1) {
+            missing = i+1;
+            break;
+        }
+    }
+    cout << "Missing number is: " << missing << endl;
+
+  
+    cout << "Enter the element you want to search: ";
+    cin >> m;
+
+    int low = 0, high = n-2;
+    bool found = false;
+    while (low <= high) {
+        int mid = low + (high-low)/2;
+        if (a[mid] == m) {
+            cout << "The element " << m << " is at position " << mid+1 << endl;
+            found = true;
+            break;
+        } else if (a[mid] < m) {
+            low = mid+1;
+        } else {
+            high = mid-1;
+        }
+    }
+    if (!found) cout << "Element not present" << endl;
+
+    return 0;
+}
+
+
+
+
+
+//Q4
+#include <iostream>
+#include <cctype>
+using namespace std;
+
+void concat(string a,string b){
+	cout << a << " " << b << endl;
+}
+
+void reverse(string a) {   
+    char temp;
+    int j = a.length()-1;     
+	for(int i =0;i<j/2;i++){
+		temp = a[i];
+		a[i] = a[j-i];
+		a[j-i] = temp;
+	}
+	cout << a << endl;
+}
+
+void novowels(string a){
+	int n = a.length();
+	for(int i = 0;i<n;i++){
+		a[i] = tolower(a[i]);
+		if(a[i] == 'a' || a[i] == 'e' || a[i] == 'i' || a[i] == 'o' || a[i] == 'u'){
+			for(int j = i; j<n-1;j++){
+				a[j] = a[j+1];
+			}
+			n--;
+			i--;
+		}
+	}
+	a.resize(n);
+	cout << a << endl;
+}
+
+void sorting(string a){
+	char temp;
+	int n = a.length();
+	for(int i = 0;i<n-1;i++){
+		for(int j = 0;j<n-i-1;j++){
+			if(a[j] > a[j+1]){
+				temp = a[j];
+				a[j] = a[j+1];
+				a[j+1] = temp;
+			}
+		}
+	}
+	cout << a <<endl;
+}
+
+void upperlower(string a){
+	int n = a.length();
+	for(int i = 0;i<n;i++){
+		if(a[i]>='a' && a[i]<='z'){
+			a[i] -= 32;
+		} else if(a[i]>='A' && a[i]<='Z'){
+			a[i] += 32;
+		}
+	}
+	cout << a << endl;
+}
+
+
+int main(){
+	string a,b;
+	cout << "Enter Two Strings:";
+	cin >> a;
+	cin >> b;
+	cout << "Concatation of two arrays : ";
+	concat(a,b);
+	cout << "Reverse of first arrays : ";
+	reverse(a);
+	cout << "Remove Vowels of first arrays : ";
+	novowels(a);
+	cout << "Sorting of first arrays : ";
+	sorting(a);
+	cout << "Reverse upper lower case of first arrays : ";
+	upperlower(a);
+}
+
+
+
+
+
+//Q5A
+#include <iostream>
+using namespace std;
+
+int main(){
+    char ch;
+    int rows, columns;
+    while (true)  {
+        cout<<"Enter the size of the matrix (m x n): ";
+        cin>>rows>>ch>>columns;
+        if (rows != columns) {
+            cout<<"The matrix must be a square matrix!"<<endl;
+            continue;
+        }
+        else {
+            int diagonalArray[rows];
+        
+            for(int i = 0; i < rows; i++){
+                cout<<"Enter the diagonal element at index [" << i << ", " << i << "]: ";
+                cin>>diagonalArray[i];
+            }
+        
+            for(int i = 0; i < rows; i++){
+                for(int j = 0; j < columns; j++){
+                    if (i == j) {
+                        cout<<diagonalArray[i]<<" ";
+                    }
+                    else {
+                        cout<<"0 ";
+                    }
+                }
+                cout<<endl;
+            }
+            break;
+        }
+    }
+
+    return 0;
+}
+
+
+
+
+
+
+//Q5B
+#include <iostream>
+using namespace std;
+
+int main(){
+    char ch;
+    int rows, columns;
+    while (true)  {
+        cout<<"Enter the size of the matrix (m x n): ";
+        cin>>rows>>ch>>columns;
+        
+        if (rows != columns) {
+            cout<<"The matrix must be a square matrix!"<<endl;
+            continue;
+        }
+
+        int size = (rows * 3) - 2;
+        int triDiagonalArray[size], k = 0;
+        
+        cout<<"Enter "<<size<<" tridiagonal elements in order: ";
+        for(int i = 0; i < size; i++){
+            cin>>triDiagonalArray[i];
+        }
+        
+        k = 0; 
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < columns; j++){
+                if (i == j || i - j == 1 || j - i == 1) {
+                    cout<<triDiagonalArray[k++]<<" ";
+                }
+                else {
+                    cout<<"0 ";
+                }
+            }
+            cout<<endl;
+        }
+        break;
+    }
+
+    return 0;
+}
+
+
+
+
+
+//Q5C
+#include <iostream>
+using namespace std;
+
+int main(){
+    char ch;
+    int rows, columns;
+    while (true)  {
+        cout<<"Enter the size of the matrix (m x n): ";
+        cin>>rows>>ch>>columns;
+        
+        if (rows != columns) {
+            cout<<"The matrix must be a square matrix!"<<endl;
+            continue;
+        }
+
+        int size = (rows * (rows + 1)) / 2;
+        int lowerTriangular[size], k = 0;
+        
+        cout<<"Enter "<<size<<" lower triangular elements in order: ";
+        for(int i = 0; i < size; i++){
+            cin>>lowerTriangular[i];
+        }
+        
+        k = 0; 
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < columns; j++){
+                if (i == j || j < i) {
+                    cout<<lowerTriangular[k]<<" ";
+                    k++;
+                }
+                else {
+                    cout<<"0 ";
+                }
+            }
+            cout<<endl;
+        }
+        break;
+    }
+
+    return 0;
+}
+
+
+
+
+
+//Q5D
+#include <iostream>
+using namespace std;
+
+int main(){
+    char ch;
+    int rows, columns;
+    while (true)  {
+        cout<<"Enter the size of the matrix (m x n): ";
+        cin>>rows>>ch>>columns;
+        
+        if (rows != columns) {
+            cout<<"The matrix must be a square matrix!"<<endl;
+            continue;
+        }
+
+        int size = (rows * (rows + 1)) / 2;
+        int upperTriangular[size], k = 0;
+        
+        cout<<"Enter "<<size<<" upper triangular elements in order: ";
+        for(int i = 0; i < size; i++){
+            cin>>upperTriangular[i];
+        }
+        
+        k = 0; 
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < columns; j++){
+                if (i == j || i > j) {
+                    cout<<upperTriangular[k]<<" ";
+                    k++;
+                }
+                else {
+                    cout<<"0 ";
+                }
+            }
+            cout<<endl;
+        }
+        break;
+    }
+
+    return 0;
+}
+
+
+
+
+
+
+//Q5E
+#include <iostream>
+using namespace std;
+
+int index(int i, int j) {
+    return (i * (i + 1)) / 2 + j;
+};
+
+int main() {
+    char ch;
+    int rows, columns;
+    while (true) {
+        cout << "Enter the size of the matrix (m x n): ";
+        cin >> rows >> ch >> columns;
+
+        if (rows != columns) {
+            cout << "The matrix must be a square matrix!" << endl;
+            continue;
+        }
+
+        int size = (rows * (rows + 1)) / 2;
+        int symmetric[size];
+
+        cout << "Enter " << size << " elements (lower triangular, row-wise): ";
+        for (int i = 0; i < size; i++) {
+            cin >> symmetric[i];
+        }
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                if (i >= j) {
+                    cout << symmetric[index(i, j)] << " ";
+                } else {
+                    cout << symmetric[index(j, i)] << " ";
+                }
+            }
+            cout << endl;
+        }
+        break;
+    }
+
+    return 0;
+}
+
+
+
+
+
+
+//Q6
+#include <iostream>
+
+using namespace std;
+
+void transpose(int b[3][3]){
+	int c[3][3];
+	for(int i = 0;i<3;i++){
+		for(int j = 0;j<3;j++){
+			c[j][i] = b[i][j];
+		}
+	}
+	cout << "Transpose of a Matrix:" << endl;
+	for(int i = 0;i<3;i++){
+		for(int j = 0;j<3;j++){
+			cout << c[i][j] << " ";
+		}
+		cout << endl;
+	}
+	
+}
+
+void addition(int a[3][3],int b[3][3]){
+	int c[3][3];
+	for(int i = 0;i<3;i++){
+		for(int j = 0;j<3;j++){
+			c[i][j] = a[i][j] + b[i][j];
+		}
+	}
+	cout << "Addition of two Matrix:" << endl;
+	for(int i = 0;i<3;i++){
+		for(int j = 0;j<3;j++){
+			cout << c[i][j] << " ";
+		}
+		cout << endl;
+	}
+	
+}
+
+void multiplication(int a[3][3],int b[3][3]){
+	int c[3][3] = {0};
+	for(int i = 0;i<3;i++){
+		for(int j = 0;j<3;j++){
+			for(int k = 0;k<3;k++){
+				c[i][j] += a[i][k] * b[k][j];
+			}
+		}
+	}
+	cout << "Multiplication of two Matrix:" << endl;
+	for(int i = 0;i<3;i++){
+		for(int j = 0;j<3;j++){
+			cout << c[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
+
+
+
+int main(){
+	int sm[3][3] = {{0,0,8},{7,0,0},{0,9,0}};
+	cout << "Your Matrix: " << endl;
+	for(int i = 0;i<3;i++){
+		for(int j = 0;j<3;j++){
+			cout << sm[i][j] << " ";
+		}
+		cout << endl;
+	}
+	cout << endl;
+	
+	transpose(sm);
+	
+	cout << endl;
+	
+	int sm1[3][3] = {{1,2,0},{0,0,0},{0,0,2}};
+	
+	cout << "Your  Second Matrix: " << endl;
+	for(int i = 0;i<3;i++){
+		for(int j = 0;j<3;j++){
+			cout << sm1[i][j] << " ";
+		}
+		cout << endl;
+	}
+	
+	cout << endl;
+	
+	addition(sm,sm1);
+	
+	cout << endl;
+	
+	multiplication(sm,sm1);
+	
+}
+
+
+
+
+
+
+//Q7
+#include <iostream>
+using namespace std;
+
+int main() {
+    int a[12] = {0, 1, 2, 3, 4, 5, 3, 4, 5, 6, 7, 8};
+    int n = 12;
+    int inversion = 0;
+
+    for (int i = 0; i < n - 1; i++) {
+        if (a[i] > a[i+1]) {
+            inversion++;
+		}
+        
+    }
+
+    cout << "The number of inversions are " << inversion << endl;
+    return 0;
+}
+
+
+
+
+
+//Q8
+#include <iostream>
+using namespace std;
+
+
+
+int main(){
+	int n;
+	cout << "No. of elements in array needed: ";
+	cin >> n;
+	int a[n],count;
+	cout << "Enter the elements of the array: ";
+	for(int i = 0;i < n;i++){
+		cin >> a[i];
+	}
+	cout << "Your Array: ";
+	for(int i = 0;i < n;i++){
+		cout << a[i] << " ";
+	}
+	cout << "\n";
+	
+	for(int i = 0;i < n;i++){
+		for(int j = i+1;j < n;j++){
+			if(a[i] == a[j]){
+				for(int k = j;k < n-1;k++){
+					a[k] = a[k+1];
+				}
+				n--;
+				i--;
+			}
+			
+		}
+	}
+	cout << "Your no duplicated Array: ";
+	for(int i = 0;i < n;i++){
+		cout << a[i] << " ";
+	}
+	cout << "\n";
+	cout << "No of unique elements in the array is " << n << endl;
+	
+	
+}
